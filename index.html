@@ -3646,31 +3646,8 @@ totalEmissiveRadiance += vec3(0.95, 0.98, 1.0) * tw * uFrost * 0.25 * uDis;
       }
 
       let letterAHeight = 10;
-      // phone mode: drop every letter but the first from the scene and re-centre everything on it
-      function keepOnlyLetterA() {
-        const keep = bricks.filter((b) => b.mesh.userData.charIdx === 0);
-        if (!keep.length) return;
-        bricks.forEach((b) => {
-          if (b.mesh.userData.charIdx === 0) return;
-          brickGroup.remove(b.mesh);
-          if (b.core && b.core.parent) b.core.parent.remove(b.core);
-        });
-        bricks = keep;
-        let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
-        keep.forEach((b) => {
-          const g = b.mesh.geometry;
-          if (!g.boundingBox) g.computeBoundingBox();
-          const t = b.targets.monolith;
-          x0 = Math.min(x0, t.x + g.boundingBox.min.x); x1 = Math.max(x1, t.x + g.boundingBox.max.x);
-          y0 = Math.min(y0, t.y + g.boundingBox.min.y); y1 = Math.max(y1, t.y + g.boundingBox.max.y);
-        });
-        currentStructureCenterX = (x0 + x1) / 2;
-        currentStructureSpanWidth = (x1 - x0) + 1.2;
-        letterAHeight = (y1 - y0) + 0.8;
-      }
       function buildBrickScene(wordInput) {
         buildBrickSceneFull(wordInput);
-        if (MOBILE_A) keepOnlyLetterA();
       }
       function buildBrickSceneFull(wordInput) {
         const cleanWord = (wordInput || state.word || 'NAGUN').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) || 'NAGUN';

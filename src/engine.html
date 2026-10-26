@@ -6714,7 +6714,12 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
         requestAnimationFrame(animate);
       }
 
+      let lastViewW = viewW();
       function onViewResize() {
+        // on phones the on-screen keyboard shrinks the visual viewport; don't re-frame the scene while typing
+        const ae = document.activeElement, w = viewW();
+        if (ae && /^(INPUT|TEXTAREA)$/.test(ae.tagName) && Math.abs(w - lastViewW) < 2) return;
+        lastViewW = w;
         camera.aspect = viewW() / viewH();
         camera.updateProjectionMatrix();
         renderer.setSize(viewW(), viewH());

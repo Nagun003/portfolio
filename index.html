@@ -5,6 +5,16 @@
   <meta name="referrer" content="no-referrer">
   <meta name="description" content="Portfolio of Nagun Haridasan, AI / ML engineer in Bengaluru: local LLMs on a 4GB phone, speech, Three.js and data. Interactive Three.js fire wall with an AI assistant.">
   <meta name="theme-color" content="#0b0705">
+  <meta name="color-scheme" content="dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Nagun">
+  <meta property="og:title" content="Nagun Haridasan | AI / ML Engineer">
+  <meta property="og:description" content="Local LLMs on a 4GB phone, speech, Three.js and data. Interactive fire-wall portfolio with an AI assistant.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff4d1c'/%3E%3Cstop offset='1' stop-color='%23ffc15e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M18 48V16h6l16 24V16h6v32h-6L24 24v24z' fill='%232a0f04'/%3E%3C/svg%3E">
+  <noscript><style>#pf{display:none}</style></noscript>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Nagun Haridasan | AI / ML Engineer</title>
@@ -617,7 +627,7 @@ body.pf-panel-open .pf-stage > * { pointer-events: none; }
 .pf-toast.on { opacity: 1; transform: translate(-50%, 0); }
 
 /* ---------- responsive ---------- */
-@media (max-width: 860px) {
+@media (max-width: 860px) and (orientation: portrait), (max-width: 600px) {
   :root { --pf-top: 62px; }
   .pf-brand-text small, .pf-kbd-label, .pf-kbd-btn kbd { display: none; }
   .pf-kbd-btn { padding: 0; width: 42px; justify-content: center; }
@@ -631,20 +641,21 @@ body.pf-panel-open .pf-stage > * { pointer-events: none; }
   .pf-rail-sep { width: 1px; height: auto; margin: 6px 2px; }
   .pf-rail-label { display: none; }
   .pf-stage { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 72px); gap: 10px; }
+  .pf-glass, .pf-rail, .pf-ask, .pf-panel, .pf-kbd-btn { -webkit-backdrop-filter: blur(12px) saturate(130%); backdrop-filter: blur(12px) saturate(130%); }
   .pf-chips { display: none; }
   .pf-hint-d { display: none; }
   .pf-hint-m { display: inline; }
   .pf-ask { height: 52px; }
   .pf-panel {
-    top: auto; left: 0; right: 0; bottom: 0; width: auto; max-width: none; height: 66dvh; border-radius: 26px 26px 0 0; border-bottom: 0; animation: pf-up 0.5s var(--pf-ease);
+    top: auto; left: 0; right: 0; bottom: 0; width: auto; max-width: none; height: 66vh; height: 66dvh; max-height: calc(100% - var(--pf-top) - 8px); border-radius: 26px 26px 0 0; border-bottom: 0; animation: pf-up 0.5s var(--pf-ease);
   }
   @keyframes pf-up { from { opacity: 0; transform: translateY(40px); } }
   .pf-panel.pf-leaving { animation: pf-down 0.28s ease forwards; }
   @keyframes pf-down { to { opacity: 0; transform: translateY(40px); } }
   .pf-panel-head { padding: 18px 18px 12px; position: relative; }
   .pf-panel-head::before { content: ''; position: absolute; top: 7px; left: 50%; width: 38px; height: 4px; margin-left: -19px; border-radius: 4px; background: rgba(255, 170, 105, 0.3); }
-  .pf-panel-body { padding: 16px 18px 90px; }
-  .pf-chatform { margin: 0 -18px; padding: 12px 18px; bottom: 76px; }
+  .pf-panel-body { padding: 16px 18px calc(90px + env(safe-area-inset-bottom)); }
+  .pf-chatform { margin: 0 -18px; padding: 12px 18px; bottom: calc(76px + env(safe-area-inset-bottom)); }
   body.pf-panel-open .pf-rail { z-index: 6; }
   .pf-proj-sum, .pf-proj-inner { padding-left: 16px; }
   .pf-graph { height: 300px; }
@@ -658,6 +669,60 @@ body.pf-panel-open .pf-stage > * { pointer-events: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   #pf *, #pf *::before, #pf *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* ================= device compatibility ================= */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { background: radial-gradient(120% 90% at 50% 100%, #3a1608 0%, #140a06 55%, #0b0705 100%) #0b0705; }   /* shown if WebGL or the CDN is unavailable */
+/* the overlay rides above the on-screen keyboard (iOS Safari and Chrome on Android keep the layout viewport unchanged) */
+#pf { bottom: var(--pf-kb, 0px); }
+.pf-palette { padding-top: max(14vh, env(safe-area-inset-top)); }
+
+/* iOS Safari zooms the page when a focused field is under 16px */
+@media (max-width: 860px), (pointer: coarse) {
+  .pf-ask input, .pf-chatform input, .pf-palette-input input, .pf-form input, .pf-form textarea { font-size: 16px; }
+}
+/* finger-sized targets */
+@media (pointer: coarse) {
+  .pf-icon-btn { width: 44px; height: 44px; }
+  .pf-chatform .pf-ask-send, .pf-ask-send { width: 44px; height: 44px; }
+  .pf-seg button, .pf-select button { min-height: 42px; padding: 0 14px; }
+  .pf-tabs button { height: 44px; }
+  .pf-tag.btn { padding: 9px 11px; }
+  .pf-btn { height: 44px; } .pf-btn.sm { height: 40px; }
+  .pf-proj-head { padding: 18px 16px; }
+  body #btn-audio { width: 44px; height: 44px; }
+  #pf input[type="range"] { height: 34px; }
+  #pf input[type="range"]::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -10px; }
+  #pf input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; }
+  #pf-palette-list li { padding: 14px 12px; }
+}
+/* short landscape screens (phones turned sideways): keep the side panel, shrink the chrome */
+@media (max-height: 520px) and (orientation: landscape) {
+  :root { --pf-top: 56px; --pf-rail: 52px; --pf-panel-w: min(52vw, 460px); }
+  .pf-top { padding-top: 8px; }
+  .pf-brand-text small { display: none; }
+  .pf-rail { padding: 5px; gap: 2px; }
+  .pf-rail-btn svg.pf-ico { width: 19px; height: 19px; }
+  .pf-rail-sep { margin: 2px 6px; }
+  .pf-chips, .pf-hint { display: none; }
+  .pf-tagline { font-size: 13px; }
+  .pf-ask { height: 46px; width: min(460px, 100%); }
+  .pf-stage { bottom: max(10px, env(safe-area-inset-bottom)); gap: 8px; }
+  .pf-panel { bottom: 8px; }
+  .pf-panel-head { padding: 14px 16px 10px; }
+  .pf-panel-head h2 { font-size: 22px; }
+  .pf-panel-body { padding: 12px 16px 20px; }
+  .pf-palette { padding-top: 6vh; }
+  .pf-graph { height: 250px; } .pf-stage3d { height: 220px; } .pf-pipe canvas { height: 200px; }
+}
+/* browsers without backdrop-filter get a more opaque glass instead of unreadable text */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .pf-glass, .pf-rail, .pf-ask, .pf-kbd-btn, .pf-chip { background: rgba(24, 13, 8, 0.94); }
+  .pf-panel { background: rgba(18, 10, 6, 0.97); }
+}
+@media (forced-colors: active) {
+  .pf-rail-btn[aria-current="true"], .pf-seg button[aria-pressed="true"], .pf-select button[aria-pressed="true"], .pf-tabs button[aria-selected="true"] { outline: 2px solid Highlight; }
 }
 
 </style>
@@ -7212,7 +7277,12 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
         requestAnimationFrame(animate);
       }
 
+      let lastViewW = viewW();
       function onViewResize() {
+        // on phones the on-screen keyboard shrinks the visual viewport; don't re-frame the scene while typing
+        const ae = document.activeElement, w = viewW();
+        if (ae && /^(INPUT|TEXTAREA)$/.test(ae.tagName) && Math.abs(w - lastViewW) < 2) return;
+        lastViewW = w;
         camera.aspect = viewW() / viewH();
         camera.updateProjectionMatrix();
         renderer.setSize(viewW(), viewH());
@@ -7240,7 +7310,16 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
   const NS = 'http://www.w3.org/2000/svg';
   const $ = (s, r = document) => r.querySelector(s);
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isNarrow = () => window.innerWidth <= 860;
+  const NARROW = window.matchMedia('(max-width: 860px) and (orientation: portrait), (max-width: 600px)');
+  const isNarrow = () => NARROW.matches;
+  // keep the overlay above the on-screen keyboard
+  (function keyboard() {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const root = document.getElementById('pf');
+    const fit = () => root.style.setProperty('--pf-kb', Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop)) + 'px');
+    vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit);
+  })();
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
   function h(tag, props, ...kids) {
@@ -7848,9 +7927,10 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
       if (!window.THREE) { stage.append(h('p', { class: 'pf-note', style: 'padding:18px', text: '3D library did not load.' })); return; }
       const T = window.THREE;
       try { renderer = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' }); } catch (e) { stage.append(h('p', { class: 'pf-note', style: 'padding:18px', text: 'WebGL is unavailable here.' })); return; }
-      renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+      renderer.setPixelRatio(Math.min(isNarrow() ? 1.5 : 2, window.devicePixelRatio || 1));
       renderer.setClearColor(0x000000, 0);
       stage.append(renderer.domElement);
+      renderer.domElement.addEventListener('webglcontextlost', (e) => { e.preventDefault(); alive = false; stage.replaceChildren(h('p', { class: 'pf-note', style: 'padding:18px', text: 'The 3D preview was paused by your device. Reopen this tab to restart it.' })); });
       scene = new T.Scene();
       camera = new T.PerspectiveCamera(36, 1, 0.1, 50); camera.position.set(0, 0.4, 9);
       scene.add(new T.AmbientLight(0xffd2b0, 0.5));
@@ -8175,6 +8255,7 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
     inp.value = ''; inp.blur();
     openPanel('ask', q ? { q } : {});
   });
+  NARROW.addEventListener && NARROW.addEventListener('change', () => { if (current) requestAnimationFrame(frameCamera); });
   const chipsEl = $('#pf-chips');
   SUGGEST.forEach((s) => chipsEl.append(h('button', { type: 'button', class: 'pf-chip', onclick: () => openPanel('ask', { q: s }) }, s)));
 

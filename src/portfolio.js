@@ -7,7 +7,16 @@
   const NS = 'http://www.w3.org/2000/svg';
   const $ = (s, r = document) => r.querySelector(s);
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isNarrow = () => window.innerWidth <= 860;
+  const NARROW = window.matchMedia('(max-width: 860px) and (orientation: portrait), (max-width: 600px)');
+  const isNarrow = () => NARROW.matches;
+  // keep the overlay above the on-screen keyboard
+  (function keyboard() {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const root = document.getElementById('pf');
+    const fit = () => root.style.setProperty('--pf-kb', Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop)) + 'px');
+    vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit);
+  })();
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
   function h(tag, props, ...kids) {
@@ -615,9 +624,10 @@
       if (!window.THREE) { stage.append(h('p', { class: 'pf-note', style: 'padding:18px', text: '3D library did not load.' })); return; }
       const T = window.THREE;
       try { renderer = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' }); } catch (e) { stage.append(h('p', { class: 'pf-note', style: 'padding:18px', text: 'WebGL is unavailable here.' })); return; }
-      renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+      renderer.setPixelRatio(Math.min(isNarrow() ? 1.5 : 2, window.devicePixelRatio || 1));
       renderer.setClearColor(0x000000, 0);
       stage.append(renderer.domElement);
+      renderer.domElement.addEventListener('webglcontextlost', (e) => { e.preventDefault(); alive = false; stage.replaceChildren(h('p', { class: 'pf-note', style: 'padding:18px', text: 'The 3D preview was paused by your device. Reopen this tab to restart it.' })); });
       scene = new T.Scene();
       camera = new T.PerspectiveCamera(36, 1, 0.1, 50); camera.position.set(0, 0.4, 9);
       scene.add(new T.AmbientLight(0xffd2b0, 0.5));
@@ -942,6 +952,7 @@
     inp.value = ''; inp.blur();
     openPanel('ask', q ? { q } : {});
   });
+  NARROW.addEventListener && NARROW.addEventListener('change', () => { if (current) requestAnimationFrame(frameCamera); });
   const chipsEl = $('#pf-chips');
   SUGGEST.forEach((s) => chipsEl.append(h('button', { type: 'button', class: 'pf-chip', onclick: () => openPanel('ask', { q: s }) }, s)));
 

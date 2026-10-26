@@ -629,33 +629,49 @@ body.pf-panel-open .pf-stage > * { pointer-events: none; }
 /* ---------- responsive ---------- */
 @media (max-width: 860px) and (orientation: portrait), (max-width: 600px) {
   :root { --pf-top: 62px; }
-  .pf-brand-text small, .pf-kbd-label, .pf-kbd-btn kbd { display: none; }
-  .pf-kbd-btn { padding: 0; width: 42px; justify-content: center; }
-  .pf-top-actions { margin-right: 50px; }
+  .pf-brand-text small { display: none; }
+  .pf-kbd-btn { display: none; }
+  .pf-top-actions { margin-right: 0; }
   .pf-brand { padding-right: 6px; }
   .pf-rail {
     top: auto; bottom: max(10px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(420px, calc(100vw - 24px));
     flex-direction: row; padding: 6px; gap: 2px; border-radius: 20px; z-index: 6;
   }
-  .pf-rail-btn { aspect-ratio: auto; height: 46px; flex: 1; }
-  .pf-rail-sep { width: 1px; height: auto; margin: 6px 2px; }
-  .pf-rail-label { display: none; }
-  .pf-stage { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 72px); gap: 10px; }
+  .pf-rail-btn { aspect-ratio: auto; height: 54px; flex: 1; flex-direction: column; gap: 4px; align-content: center; padding-top: 2px; }
+  .pf-rail-btn svg.pf-ico { width: 21px; height: 21px; }
+  .pf-rail-btn[data-sec="ask"], .pf-rail-sep { display: none; }
+  .pf-rail-label { position: static; opacity: 1; transform: none; padding: 0; border: 0; background: none; font: 600 10.5px/1 'Inter', sans-serif; letter-spacing: 0.01em; text-transform: none; color: inherit; }
+  .pf-rail-btn { display: flex; align-items: center; justify-content: center; }
+  .pf-stage { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 84px); gap: 12px; }
   .pf-glass, .pf-rail, .pf-ask, .pf-panel, .pf-kbd-btn { -webkit-backdrop-filter: blur(12px) saturate(130%); backdrop-filter: blur(12px) saturate(130%); }
   .pf-chips { display: none; }
-  .pf-hint-d { display: none; }
-  .pf-hint-m { display: inline; }
+  .pf-hint { display: none; }
+  .pf-tagline { font-size: 14px; }
+  .pf-ask input { pointer-events: none; }
+  .pf-scrim { height: 34vh; }
   .pf-ask { height: 52px; }
   .pf-panel {
-    top: auto; left: 0; right: 0; bottom: 0; width: auto; max-width: none; height: 66vh; height: 66dvh; max-height: calc(100% - var(--pf-top) - 8px); border-radius: 26px 26px 0 0; border-bottom: 0; animation: pf-up 0.5s var(--pf-ease);
+    top: auto; left: 0; right: 0; bottom: 0; width: auto; max-width: none; height: 74vh; height: 74dvh; max-height: calc(100% - var(--pf-top) - 8px); border-radius: 26px 26px 0 0; border-bottom: 0; animation: pf-up 0.5s var(--pf-ease);
   }
   @keyframes pf-up { from { opacity: 0; transform: translateY(40px); } }
   .pf-panel.pf-leaving { animation: pf-down 0.28s ease forwards; }
   @keyframes pf-down { to { opacity: 0; transform: translateY(40px); } }
-  .pf-panel-head { padding: 18px 18px 12px; position: relative; }
+  .pf-panel-head { padding: 22px 18px 12px; position: relative; touch-action: none; align-items: center; }
+  .pf-eyebrow { display: none; }
+  .pf-panel-head h2 { font-size: 22px; }
   .pf-panel-head::before { content: ''; position: absolute; top: 7px; left: 50%; width: 38px; height: 4px; margin-left: -19px; border-radius: 4px; background: rgba(255, 170, 105, 0.3); }
-  .pf-panel-body { padding: 16px 18px calc(90px + env(safe-area-inset-bottom)); }
-  .pf-chatform { margin: 0 -18px; padding: 12px 18px; bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .pf-panel { padding-bottom: calc(82px + env(safe-area-inset-bottom)); }
+  .pf-panel-body { padding: 14px 18px 22px; gap: 14px; }
+  .pf-lead { font-size: 15.5px; }
+  .pf-stat { padding: 12px; } .pf-stat strong { font-size: 28px; }
+  .pf-proj-sum { display: none; }
+  .pf-proj[data-open="true"] .pf-proj-sum { display: block; }
+  .pf-proj-head { padding: 14px; gap: 12px; }
+  .pf-proj-n { font-size: 22px; min-width: 30px; }
+  .pf-proj-title { font-size: 15px; margin-bottom: 5px; }
+  .pf-chatform { margin: 0 -18px -22px; padding: 12px 18px 14px; bottom: 0; }
+  .pf-chat + .pf-actions { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px; padding: 0 18px 2px; scrollbar-width: none; }
+  .pf-chat + .pf-actions::-webkit-scrollbar { display: none; }
   body.pf-panel-open .pf-rail { z-index: 6; }
   .pf-proj-sum, .pf-proj-inner { padding-left: 16px; }
   .pf-graph { height: 300px; }
@@ -724,6 +740,20 @@ html, body { background: radial-gradient(120% 90% at 50% 100%, #3a1608 0%, #140a
 @media (forced-colors: active) {
   .pf-rail-btn[aria-current="true"], .pf-seg button[aria-pressed="true"], .pf-select button[aria-pressed="true"], .pf-tabs button[aria-selected="true"] { outline: 2px solid Highlight; }
 }
+
+/* ---------- collapsible sections (phones) ---------- */
+.pf-acc { border-radius: 16px; border: 1px solid var(--pf-line); background: rgba(255, 160, 90, 0.04); }
+.pf-acc summary {
+  list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 50px; padding: 0 16px; cursor: pointer;
+  font: 600 11px/1 'JetBrains Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pf-ink-2); -webkit-tap-highlight-color: transparent;
+}
+.pf-acc summary::-webkit-details-marker { display: none; }
+.pf-acc summary svg { color: var(--pf-mute); transition: transform 0.3s var(--pf-ease), color 0.2s; }
+.pf-acc[open] { border-color: var(--pf-line-2); }
+.pf-acc[open] summary svg { transform: rotate(180deg); color: var(--pf-amber); }
+.pf-acc-body { padding: 2px 16px 16px; display: grid; gap: 12px; }
+.pf-acc .pf-card { background: none; border: 0; padding: 0; }
+.pf-acc .pf-skill-groups { gap: 12px; }
 
 </style>
 </head>
@@ -7319,6 +7349,12 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
   }
 
   const frag = (...kids) => { const f = document.createDocumentFragment(); kids.flat(Infinity).forEach((c) => { if (c) f.append(c); }); return f; };
+  function block(title, kids, openNarrow) {
+    if (!NARROW.matches) return h('div', null, h('p', { class: 'pf-h3', text: title }), kids);
+    const d = h('details', { class: 'pf-acc' }, h('summary', null, h('span', { text: title }), icon('chev')), h('div', { class: 'pf-acc-body' }, kids));
+    if (openNarrow) d.open = true;
+    return d;
+  }
   const circle = (x, y, r) => `M${x - r} ${y}a${r} ${r} 0 1 0 ${2 * r} 0 ${r} ${r} 0 1 0 ${-2 * r} 0`;
   const ICONS = {
     user: ['M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2', circle(12, 7, 4)],
@@ -7475,6 +7511,7 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
   const panelEyebrow = $('#pf-panel-eyebrow');
   let current = null;       // { id, dispose }
   let leaveTimer = 0;
+  let pushed = false, ignorePop = false;
 
   const SECTIONS = [
     { id: 'about', icon: 'user', label: 'About', eyebrow: '01 — About', title: 'Hi, I’m Nagun.', render: renderAbout },
@@ -7523,9 +7560,13 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
     panel.hidden = false;
     body.classList.add('pf-panel-open');
     syncRail();
-    try { history.replaceState(null, '', '#/' + id); } catch (e) { /* file:// */ }
+    try {
+      // on phones the system Back gesture closes the sheet instead of leaving the site
+      if (isNarrow() && !pushed) { history.pushState({ pf: 1 }, '', '#/' + id); pushed = true; } else history.replaceState(pushed ? { pf: 1 } : null, '', '#/' + id);
+    } catch (e) { /* file:// */ }
     requestAnimationFrame(frameCamera);
-    if (!isNarrow()) panelTitle.focus({ preventScroll: true });
+    if (opts && opts.focus) { const i = panelBody.querySelector('.pf-chatform input'); if (i) i.focus(); }
+    else if (!isNarrow()) panelTitle.focus({ preventScroll: true });
   }
   function closePanel() {
     if (!current) return;
@@ -7534,10 +7575,34 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
     syncRail();
     body.classList.remove('pf-panel-open');
     panel.classList.add('pf-leaving');
-    leaveTimer = setTimeout(() => { panel.hidden = true; panel.classList.remove('pf-leaving'); panelBody.replaceChildren(); }, reduced ? 0 : 280);
-    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* file:// */ }
+    leaveTimer = setTimeout(() => { panel.hidden = true; panel.classList.remove('pf-leaving'); panel.style.transform = ''; panel.style.transition = ''; panelBody.replaceChildren(); }, reduced ? 0 : 280);
+    try {
+      if (pushed) { pushed = false; ignorePop = true; history.back(); } else history.replaceState(null, '', location.pathname + location.search);
+    } catch (e) { /* file:// */ }
     frameCamera();
   }
+  window.addEventListener('popstate', () => {
+    if (ignorePop) { ignorePop = false; return; }
+    if (current) { pushed = false; closePanel(); }
+  });
+  // phones: drag the sheet's handle area down to dismiss it
+  (function swipe() {
+    const head = $('.pf-panel-head');
+    let y0 = null, dy = 0, t0 = 0;
+    head.addEventListener('pointerdown', (e) => {
+      if (!isNarrow() || e.target.closest('button')) return;
+      y0 = e.clientY; dy = 0; t0 = performance.now(); panel.style.transition = 'none'; try { head.setPointerCapture(e.pointerId); } catch (err) { /* synthetic pointer */ }
+    });
+    head.addEventListener('pointermove', (e) => { if (y0 == null) return; dy = Math.max(0, e.clientY - y0); panel.style.transform = `translateY(${dy}px)`; });
+    const end = () => {
+      if (y0 == null) return;
+      const fast = dy / Math.max(1, performance.now() - t0) > 0.6;
+      y0 = null;
+      if (dy > 110 || (fast && dy > 30)) closePanel();
+      else { panel.style.transition = 'transform 0.25s ease'; panel.style.transform = ''; setTimeout(() => { panel.style.transition = ''; }, 260); }
+    };
+    head.addEventListener('pointerup', end); head.addEventListener('pointercancel', end);
+  })();
   $('#pf-panel-close').addEventListener('click', closePanel);
   window.addEventListener('resize', () => { if (current) requestAnimationFrame(frameCamera); });
 
@@ -7552,17 +7617,17 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
         stat('3', 'small language models quantized to 4-bit'),
         stat('5', 'projects across AI, 3D and data, 2024–2026'),
         stat('5', 'languages spoken, from Kannada to Hindi')),
-      h('div', null, h('p', { class: 'pf-h3', text: 'Education' }),
+      block('Education',
         h('div', { class: 'pf-card' }, h('div', { class: 'pf-tl' }, h('span', { class: 'pf-tl-dot' }),
           h('span', { class: 'when', text: '2021 – 2025' }),
           h('h4', { text: 'B.E. in Computer Science & Engineering (AI & ML)' }),
           h('p', { text: 'AMC Engineering College, Bengaluru · Affiliated to VTU' }),
-          h('div', { class: 'pf-tags' }, ['Deep Learning', 'Machine Learning', 'Computer Vision', 'NLP', 'DBMS (SQL)', 'Data Structures & Algorithms', 'Operating Systems'].map((t) => h('span', { class: 'pf-tag plain', text: t })))))),
-      h('div', null, h('p', { class: 'pf-h3', text: 'Languages' }),
-        h('div', { class: 'pf-bars' }, langs.map(([n, l, w]) => h('div', { class: 'pf-bar' }, h('span', { text: n }), h('i', { vars: { '--w': w + '%' } }), h('em', { text: l }))))),
-      h('div', null, h('p', { class: 'pf-h3', text: 'Away from the keyboard' }),
+          h('div', { class: 'pf-tags' }, ['Deep Learning', 'Machine Learning', 'Computer Vision', 'NLP', 'DBMS (SQL)', 'Data Structures & Algorithms', 'Operating Systems'].map((t) => h('span', { class: 'pf-tag plain', text: t }))))), true),
+      block('Languages',
+        h('div', { class: 'pf-bars' }, langs.map(([n, l, w]) => h('div', { class: 'pf-bar' }, h('span', { text: n }), h('i', { vars: { '--w': w + '%' } }), h('em', { text: l })))), false),
+      block('Away from the keyboard',
         h('div', { class: 'pf-interests' },
-          [['fish', 'Freshwater aquascaping & planted tanks'], ['camera', 'Macro photography of jumping & lynx spiders'], ['brush', 'Drawing & painting'], ['waves', 'Swimming']].map(([i, t]) => h('div', { class: 'pf-interest' }, icon(i), h('span', { text: t }))))),
+          [['fish', 'Freshwater aquascaping & planted tanks'], ['camera', 'Macro photography of jumping & lynx spiders'], ['brush', 'Drawing & painting'], ['waves', 'Swimming']].map(([i, t]) => h('div', { class: 'pf-interest' }, icon(i), h('span', { text: t })))), false),
       h('div', { class: 'pf-actions' },
         h('button', { type: 'button', class: 'pf-btn primary', onclick: () => openPanel('projects') }, 'See the projects', icon('send')),
         h('button', { type: 'button', class: 'pf-btn', onclick: () => openPanel('ask', { q: 'What should I look at first?' }) }, icon('spark'), 'Ask the assistant')));
@@ -7598,7 +7663,7 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
     return {
       node: frag(
         h('p', { class: 'pf-p' }, rich('Every dot is something I’ve used. **Hover or tap** a dot to see which projects it shows up in; dashed lines connect skills that appeared together.')),
-        chips, graphEl, groups),
+        chips, graphEl, block('All skills', groups, false)),
       dispose: graph.dispose
     };
   }
@@ -7792,7 +7857,7 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
       cards[p.id] = h('article', { class: 'pf-proj', 'data-open': 'false', id: 'proj-' + p.id }, head, h('p', { class: 'pf-proj-sum', text: p.summary }), more);
       list.append(cards[p.id]);
     });
-    toggle((opts && opts.project) || 'llm', true);
+    if ((opts && opts.project) || !NARROW.matches) toggle((opts && opts.project) || 'llm', true);
     return { node: frag(seg, list), update(o) { if (o.project) { toggle(o.project, true); cards[o.project].scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }); } } };
   }
 
@@ -8074,7 +8139,7 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
         h('a', { class: 'pf-link', href: ME.github, target: '_blank', rel: 'noopener noreferrer' }, icon('github'), h('span', null, h('strong', { text: 'GitHub' }), h('small', { text: 'github.com/Nagun003' }))),
         h('a', { class: 'pf-link', href: ME.linkedin, target: '_blank', rel: 'noopener noreferrer' }, icon('linkedin'), h('span', null, h('strong', { text: 'LinkedIn' }), h('small', { text: 'in/nagun-haridasan' })))),
       h('div', { class: 'pf-interest' }, icon('pin'), h('span', { text: ME.place })),
-      h('div', null, h('p', { class: 'pf-h3', text: 'Say hello' }), form),
+      block('Send a message', form, false),
       h('p', { class: 'pf-foot', text: 'Built with Three.js · Fire theme · © 2026 Nagun Haridasan' }));
   }
 
@@ -8226,6 +8291,11 @@ print("Generated ${exportedPolys.length * 2} 6-course 2-layer carved stone block
   });
 
   // ask bar + chips on the hero
+  const askInput = $('#pf-ask-input');
+  const syncAskMode = () => { askInput.readOnly = NARROW.matches; };
+  syncAskMode();
+  NARROW.addEventListener && NARROW.addEventListener('change', syncAskMode);
+  $('#pf-ask').addEventListener('click', () => { if (NARROW.matches) openPanel('ask', { focus: true }); });
   $('#pf-ask').addEventListener('submit', (e) => {
     e.preventDefault();
     const inp = $('#pf-ask-input'), q = inp.value.trim();

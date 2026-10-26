@@ -39,6 +39,12 @@
   }
 
   const frag = (...kids) => { const f = document.createDocumentFragment(); kids.flat(Infinity).forEach((c) => { if (c) f.append(c); }); return f; };
+  function block(title, kids, openNarrow) {
+    if (!NARROW.matches) return h('div', null, h('p', { class: 'pf-h3', text: title }), kids);
+    const d = h('details', { class: 'pf-acc' }, h('summary', null, h('span', { text: title }), icon('chev')), h('div', { class: 'pf-acc-body' }, kids));
+    if (openNarrow) d.open = true;
+    return d;
+  }
   const circle = (x, y, r) => `M${x - r} ${y}a${r} ${r} 0 1 0 ${2 * r} 0 ${r} ${r} 0 1 0 ${-2 * r} 0`;
   const ICONS = {
     user: ['M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2', circle(12, 7, 4)],
@@ -195,6 +201,7 @@
   const panelEyebrow = $('#pf-panel-eyebrow');
   let current = null;       // { id, dispose }
   let leaveTimer = 0;
+  let pushed = false, ignorePop = false;
 
   const SECTIONS = [
     { id: 'about', icon: 'user', label: 'About', eyebrow: '01 — About', title: 'Hi, I’m Nagun.', render: renderAbout },
@@ -243,9 +250,13 @@
     panel.hidden = false;
     body.classList.add('pf-panel-open');
     syncRail();
-    try { history.replaceState(null, '', '#/' + id); } catch (e) { /* file:// */ }
+    try {
+      // on phones the system Back gesture closes the sheet instead of leaving the site
+      if (isNarrow() && !pushed) { history.pushState({ pf: 1 }, '', '#/' + id); pushed = true; } else history.replaceState(pushed ? { pf: 1 } : null, '', '#/' + id);
+    } catch (e) { /* file:// */ }
     requestAnimationFrame(frameCamera);
-    if (!isNarrow()) panelTitle.focus({ preventScroll: true });
+    if (opts && opts.focus) { const i = panelBody.querySelector('.pf-chatform input'); if (i) i.focus(); }
+    else if (!isNarrow()) panelTitle.focus({ preventScroll: true });
   }
   function closePanel() {
     if (!current) return;
@@ -254,10 +265,34 @@
     syncRail();
     body.classList.remove('pf-panel-open');
     panel.classList.add('pf-leaving');
-    leaveTimer = setTimeout(() => { panel.hidden = true; panel.classList.remove('pf-leaving'); panelBody.replaceChildren(); }, reduced ? 0 : 280);
-    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* file:// */ }
+    leaveTimer = setTimeout(() => { panel.hidden = true; panel.classList.remove('pf-leaving'); panel.style.transform = ''; panel.style.transition = ''; panelBody.replaceChildren(); }, reduced ? 0 : 280);
+    try {
+      if (pushed) { pushed = false; ignorePop = true; history.back(); } else history.replaceState(null, '', location.pathname + location.search);
+    } catch (e) { /* file:// */ }
     frameCamera();
   }
+  window.addEventListener('popstate', () => {
+    if (ignorePop) { ignorePop = false; return; }
+    if (current) { pushed = false; closePanel(); }
+  });
+  // phones: drag the sheet's handle area down to dismiss it
+  (function swipe() {
+    const head = $('.pf-panel-head');
+    let y0 = null, dy = 0, t0 = 0;
+    head.addEventListener('pointerdown', (e) => {
+      if (!isNarrow() || e.target.closest('button')) return;
+      y0 = e.clientY; dy = 0; t0 = performance.now(); panel.style.transition = 'none'; try { head.setPointerCapture(e.pointerId); } catch (err) { /* synthetic pointer */ }
+    });
+    head.addEventListener('pointermove', (e) => { if (y0 == null) return; dy = Math.max(0, e.clientY - y0); panel.style.transform = `translateY(${dy}px)`; });
+    const end = () => {
+      if (y0 == null) return;
+      const fast = dy / Math.max(1, performance.now() - t0) > 0.6;
+      y0 = null;
+      if (dy > 110 || (fast && dy > 30)) closePanel();
+      else { panel.style.transition = 'transform 0.25s ease'; panel.style.transform = ''; setTimeout(() => { panel.style.transition = ''; }, 260); }
+    };
+    head.addEventListener('pointerup', end); head.addEventListener('pointercancel', end);
+  })();
   $('#pf-panel-close').addEventListener('click', closePanel);
   window.addEventListener('resize', () => { if (current) requestAnimationFrame(frameCamera); });
 
@@ -272,17 +307,17 @@
         stat('3', 'small language models quantized to 4-bit'),
         stat('5', 'projects across AI, 3D and data, 2024–2026'),
         stat('5', 'languages spoken, from Kannada to Hindi')),
-      h('div', null, h('p', { class: 'pf-h3', text: 'Education' }),
+      block('Education',
         h('div', { class: 'pf-card' }, h('div', { class: 'pf-tl' }, h('span', { class: 'pf-tl-dot' }),
           h('span', { class: 'when', text: '2021 – 2025' }),
           h('h4', { text: 'B.E. in Computer Science & Engineering (AI & ML)' }),
           h('p', { text: 'AMC Engineering College, Bengaluru · Affiliated to VTU' }),
-          h('div', { class: 'pf-tags' }, ['Deep Learning', 'Machine Learning', 'Computer Vision', 'NLP', 'DBMS (SQL)', 'Data Structures & Algorithms', 'Operating Systems'].map((t) => h('span', { class: 'pf-tag plain', text: t })))))),
-      h('div', null, h('p', { class: 'pf-h3', text: 'Languages' }),
-        h('div', { class: 'pf-bars' }, langs.map(([n, l, w]) => h('div', { class: 'pf-bar' }, h('span', { text: n }), h('i', { vars: { '--w': w + '%' } }), h('em', { text: l }))))),
-      h('div', null, h('p', { class: 'pf-h3', text: 'Away from the keyboard' }),
+          h('div', { class: 'pf-tags' }, ['Deep Learning', 'Machine Learning', 'Computer Vision', 'NLP', 'DBMS (SQL)', 'Data Structures & Algorithms', 'Operating Systems'].map((t) => h('span', { class: 'pf-tag plain', text: t }))))), true),
+      block('Languages',
+        h('div', { class: 'pf-bars' }, langs.map(([n, l, w]) => h('div', { class: 'pf-bar' }, h('span', { text: n }), h('i', { vars: { '--w': w + '%' } }), h('em', { text: l })))), false),
+      block('Away from the keyboard',
         h('div', { class: 'pf-interests' },
-          [['fish', 'Freshwater aquascaping & planted tanks'], ['camera', 'Macro photography of jumping & lynx spiders'], ['brush', 'Drawing & painting'], ['waves', 'Swimming']].map(([i, t]) => h('div', { class: 'pf-interest' }, icon(i), h('span', { text: t }))))),
+          [['fish', 'Freshwater aquascaping & planted tanks'], ['camera', 'Macro photography of jumping & lynx spiders'], ['brush', 'Drawing & painting'], ['waves', 'Swimming']].map(([i, t]) => h('div', { class: 'pf-interest' }, icon(i), h('span', { text: t })))), false),
       h('div', { class: 'pf-actions' },
         h('button', { type: 'button', class: 'pf-btn primary', onclick: () => openPanel('projects') }, 'See the projects', icon('send')),
         h('button', { type: 'button', class: 'pf-btn', onclick: () => openPanel('ask', { q: 'What should I look at first?' }) }, icon('spark'), 'Ask the assistant')));
@@ -318,7 +353,7 @@
     return {
       node: frag(
         h('p', { class: 'pf-p' }, rich('Every dot is something I’ve used. **Hover or tap** a dot to see which projects it shows up in; dashed lines connect skills that appeared together.')),
-        chips, graphEl, groups),
+        chips, graphEl, block('All skills', groups, false)),
       dispose: graph.dispose
     };
   }
@@ -512,7 +547,7 @@
       cards[p.id] = h('article', { class: 'pf-proj', 'data-open': 'false', id: 'proj-' + p.id }, head, h('p', { class: 'pf-proj-sum', text: p.summary }), more);
       list.append(cards[p.id]);
     });
-    toggle((opts && opts.project) || 'llm', true);
+    if ((opts && opts.project) || !NARROW.matches) toggle((opts && opts.project) || 'llm', true);
     return { node: frag(seg, list), update(o) { if (o.project) { toggle(o.project, true); cards[o.project].scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }); } } };
   }
 
@@ -794,7 +829,7 @@
         h('a', { class: 'pf-link', href: ME.github, target: '_blank', rel: 'noopener noreferrer' }, icon('github'), h('span', null, h('strong', { text: 'GitHub' }), h('small', { text: 'github.com/Nagun003' }))),
         h('a', { class: 'pf-link', href: ME.linkedin, target: '_blank', rel: 'noopener noreferrer' }, icon('linkedin'), h('span', null, h('strong', { text: 'LinkedIn' }), h('small', { text: 'in/nagun-haridasan' })))),
       h('div', { class: 'pf-interest' }, icon('pin'), h('span', { text: ME.place })),
-      h('div', null, h('p', { class: 'pf-h3', text: 'Say hello' }), form),
+      block('Send a message', form, false),
       h('p', { class: 'pf-foot', text: 'Built with Three.js · Fire theme · © 2026 Nagun Haridasan' }));
   }
 
@@ -946,6 +981,11 @@
   });
 
   // ask bar + chips on the hero
+  const askInput = $('#pf-ask-input');
+  const syncAskMode = () => { askInput.readOnly = NARROW.matches; };
+  syncAskMode();
+  NARROW.addEventListener && NARROW.addEventListener('change', syncAskMode);
+  $('#pf-ask').addEventListener('click', () => { if (NARROW.matches) openPanel('ask', { focus: true }); });
   $('#pf-ask').addEventListener('submit', (e) => {
     e.preventDefault();
     const inp = $('#pf-ask-input'), q = inp.value.trim();

@@ -387,33 +387,49 @@ body.pf-panel-open .pf-stage > * { pointer-events: none; }
 /* ---------- responsive ---------- */
 @media (max-width: 860px) and (orientation: portrait), (max-width: 600px) {
   :root { --pf-top: 62px; }
-  .pf-brand-text small, .pf-kbd-label, .pf-kbd-btn kbd { display: none; }
-  .pf-kbd-btn { padding: 0; width: 42px; justify-content: center; }
-  .pf-top-actions { margin-right: 50px; }
+  .pf-brand-text small { display: none; }
+  .pf-kbd-btn { display: none; }
+  .pf-top-actions { margin-right: 0; }
   .pf-brand { padding-right: 6px; }
   .pf-rail {
     top: auto; bottom: max(10px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(420px, calc(100vw - 24px));
     flex-direction: row; padding: 6px; gap: 2px; border-radius: 20px; z-index: 6;
   }
-  .pf-rail-btn { aspect-ratio: auto; height: 46px; flex: 1; }
-  .pf-rail-sep { width: 1px; height: auto; margin: 6px 2px; }
-  .pf-rail-label { display: none; }
-  .pf-stage { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 72px); gap: 10px; }
+  .pf-rail-btn { aspect-ratio: auto; height: 54px; flex: 1; flex-direction: column; gap: 4px; align-content: center; padding-top: 2px; }
+  .pf-rail-btn svg.pf-ico { width: 21px; height: 21px; }
+  .pf-rail-btn[data-sec="ask"], .pf-rail-sep { display: none; }
+  .pf-rail-label { position: static; opacity: 1; transform: none; padding: 0; border: 0; background: none; font: 600 10.5px/1 'Inter', sans-serif; letter-spacing: 0.01em; text-transform: none; color: inherit; }
+  .pf-rail-btn { display: flex; align-items: center; justify-content: center; }
+  .pf-stage { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 84px); gap: 12px; }
   .pf-glass, .pf-rail, .pf-ask, .pf-panel, .pf-kbd-btn { -webkit-backdrop-filter: blur(12px) saturate(130%); backdrop-filter: blur(12px) saturate(130%); }
   .pf-chips { display: none; }
-  .pf-hint-d { display: none; }
-  .pf-hint-m { display: inline; }
+  .pf-hint { display: none; }
+  .pf-tagline { font-size: 14px; }
+  .pf-ask input { pointer-events: none; }
+  .pf-scrim { height: 34vh; }
   .pf-ask { height: 52px; }
   .pf-panel {
-    top: auto; left: 0; right: 0; bottom: 0; width: auto; max-width: none; height: 66vh; height: 66dvh; max-height: calc(100% - var(--pf-top) - 8px); border-radius: 26px 26px 0 0; border-bottom: 0; animation: pf-up 0.5s var(--pf-ease);
+    top: auto; left: 0; right: 0; bottom: 0; width: auto; max-width: none; height: 74vh; height: 74dvh; max-height: calc(100% - var(--pf-top) - 8px); border-radius: 26px 26px 0 0; border-bottom: 0; animation: pf-up 0.5s var(--pf-ease);
   }
   @keyframes pf-up { from { opacity: 0; transform: translateY(40px); } }
   .pf-panel.pf-leaving { animation: pf-down 0.28s ease forwards; }
   @keyframes pf-down { to { opacity: 0; transform: translateY(40px); } }
-  .pf-panel-head { padding: 18px 18px 12px; position: relative; }
+  .pf-panel-head { padding: 22px 18px 12px; position: relative; touch-action: none; align-items: center; }
+  .pf-eyebrow { display: none; }
+  .pf-panel-head h2 { font-size: 22px; }
   .pf-panel-head::before { content: ''; position: absolute; top: 7px; left: 50%; width: 38px; height: 4px; margin-left: -19px; border-radius: 4px; background: rgba(255, 170, 105, 0.3); }
-  .pf-panel-body { padding: 16px 18px calc(90px + env(safe-area-inset-bottom)); }
-  .pf-chatform { margin: 0 -18px; padding: 12px 18px; bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .pf-panel { padding-bottom: calc(82px + env(safe-area-inset-bottom)); }
+  .pf-panel-body { padding: 14px 18px 22px; gap: 14px; }
+  .pf-lead { font-size: 15.5px; }
+  .pf-stat { padding: 12px; } .pf-stat strong { font-size: 28px; }
+  .pf-proj-sum { display: none; }
+  .pf-proj[data-open="true"] .pf-proj-sum { display: block; }
+  .pf-proj-head { padding: 14px; gap: 12px; }
+  .pf-proj-n { font-size: 22px; min-width: 30px; }
+  .pf-proj-title { font-size: 15px; margin-bottom: 5px; }
+  .pf-chatform { margin: 0 -18px -22px; padding: 12px 18px 14px; bottom: 0; }
+  .pf-chat + .pf-actions { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px; padding: 0 18px 2px; scrollbar-width: none; }
+  .pf-chat + .pf-actions::-webkit-scrollbar { display: none; }
   body.pf-panel-open .pf-rail { z-index: 6; }
   .pf-proj-sum, .pf-proj-inner { padding-left: 16px; }
   .pf-graph { height: 300px; }
@@ -482,3 +498,17 @@ html, body { background: radial-gradient(120% 90% at 50% 100%, #3a1608 0%, #140a
 @media (forced-colors: active) {
   .pf-rail-btn[aria-current="true"], .pf-seg button[aria-pressed="true"], .pf-select button[aria-pressed="true"], .pf-tabs button[aria-selected="true"] { outline: 2px solid Highlight; }
 }
+
+/* ---------- collapsible sections (phones) ---------- */
+.pf-acc { border-radius: 16px; border: 1px solid var(--pf-line); background: rgba(255, 160, 90, 0.04); }
+.pf-acc summary {
+  list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 50px; padding: 0 16px; cursor: pointer;
+  font: 600 11px/1 'JetBrains Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pf-ink-2); -webkit-tap-highlight-color: transparent;
+}
+.pf-acc summary::-webkit-details-marker { display: none; }
+.pf-acc summary svg { color: var(--pf-mute); transition: transform 0.3s var(--pf-ease), color 0.2s; }
+.pf-acc[open] { border-color: var(--pf-line-2); }
+.pf-acc[open] summary svg { transform: rotate(180deg); color: var(--pf-amber); }
+.pf-acc-body { padding: 2px 16px 16px; display: grid; gap: 12px; }
+.pf-acc .pf-card { background: none; border: 0; padding: 0; }
+.pf-acc .pf-skill-groups { gap: 12px; }

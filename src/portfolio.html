@@ -1,0 +1,61 @@
+<!-- Portfolio layer: everything is built from src/portfolio.js; this is only the static shell. -->
+<div id="pf" data-ui-root>
+  <h1 class="pf-sr">Nagun Haridasan, AI / ML engineer from Bengaluru</h1>
+
+  <header class="pf-top" data-ui>
+    <a class="pf-brand" href="#/" aria-label="Nagun Haridasan, home">
+      <span class="pf-mark" aria-hidden="true"><span>N</span></span>
+      <span class="pf-brand-text">
+        <strong>Nagun Haridasan</strong>
+        <small>AI / ML Engineer · Bengaluru</small>
+      </span>
+    </a>
+    <div class="pf-top-actions">
+      <button type="button" class="pf-kbd-btn" id="pf-open-palette" aria-label="Open command menu">
+        <span data-icon="search"></span>
+        <span class="pf-kbd-label">Search or jump to…</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+    </div>
+  </header>
+
+  <nav class="pf-rail" id="pf-rail" data-ui aria-label="Sections"></nav>
+
+  <div class="pf-scrim" aria-hidden="true"></div>
+  <div class="pf-stage" data-ui-passthrough>
+    <p class="pf-tagline" aria-live="off"><span class="pf-tag-lead">Building AI that runs</span> <span class="pf-typed" id="pf-typed"></span><span class="pf-caret" aria-hidden="true"></span></p>
+    <form class="pf-ask" id="pf-ask" data-ui autocomplete="off">
+      <span class="pf-ask-icon" data-icon="spark"></span>
+      <label class="pf-sr" for="pf-ask-input">Ask Nagun's portfolio assistant</label>
+      <input id="pf-ask-input" type="text" maxlength="140" placeholder="Ask about projects, skills, stack…" enterkeyhint="send" spellcheck="false">
+      <button type="submit" class="pf-ask-send" aria-label="Send question"><span data-icon="send"></span></button>
+    </form>
+    <div class="pf-chips" id="pf-chips" data-ui></div>
+    <p class="pf-hint" id="pf-hint"><span class="pf-hint-d">Drag to orbit · Scroll to shatter the wall · Click to pulse</span><span class="pf-hint-m">Drag to orbit · Tap to pulse</span></p>
+  </div>
+
+  <aside class="pf-panel" id="pf-panel" data-ui role="dialog" aria-modal="false" aria-labelledby="pf-panel-title" hidden>
+    <div class="pf-panel-head">
+      <div>
+        <p class="pf-eyebrow" id="pf-panel-eyebrow"></p>
+        <h2 id="pf-panel-title" tabindex="-1"></h2>
+      </div>
+      <button type="button" class="pf-icon-btn" id="pf-panel-close" aria-label="Close panel"><span data-icon="x"></span></button>
+    </div>
+    <div class="pf-panel-body" id="pf-panel-body"></div>
+  </aside>
+
+  <div class="pf-palette" id="pf-palette" data-ui hidden>
+    <div class="pf-palette-backdrop" id="pf-palette-backdrop"></div>
+    <div class="pf-palette-box" role="dialog" aria-modal="true" aria-label="Command menu">
+      <div class="pf-palette-input">
+        <span data-icon="search"></span>
+        <input id="pf-palette-q" type="text" placeholder="Type a command, or ask a question…" spellcheck="false" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pf-palette-list">
+        <kbd>Esc</kbd>
+      </div>
+      <ul id="pf-palette-list" role="listbox"></ul>
+    </div>
+  </div>
+
+  <div class="pf-toast" id="pf-toast" role="status" aria-live="polite"></div>
+</div>
